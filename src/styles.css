@@ -100,3 +100,40 @@ footer{
   opacity: 1;
   transition: opacity 0.4s ease;
 }
+
+nav a {
+  color: #2563eb;
+  text-decoration: none;
+  margin-right: 12px;
+  font-weight: 500;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+.home {
+  text-align: center;
+  padding: 40px;
+}
+
+.menu-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.menu-btn {
+  background: #2563eb;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.menu-btn:hover {
+  background: #1d4ed8;
+}

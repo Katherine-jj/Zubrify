@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  directus:
+    image: directus/directus:latest
+    ports:
+      - "8055:8055"
+    environment:
+      DIRECTUS_DATABASE_HOST: db
+      DIRECTUS_DATABASE_PORT: 5432
+      DIRECTUS_DATABASE_NAME: directus
+      DIRECTUS_DATABASE_USER: directus
+      DIRECTUS_DATABASE_PASSWORD: directus123
+      DIRECTUS_ADMIN_EMAIL: admin@admin.com
+      DIRECTUS_ADMIN_PASSWORD: admin123
+      DIRECTUS_ADMIN_FIRST: Admin
+      DIRECTUS_ADMIN_LAST: Admin
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: directus
+      POSTGRES_USER: directus
+      POSTGRES_PASSWORD: directus123
+    volumes:
+      - directus-db-data:/var/lib/postgresql/data
+
+volumes:
+  directus-db-data:
