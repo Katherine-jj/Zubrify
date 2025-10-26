@@ -1,0 +1,47 @@
+services:
+  db:
+    image: postgres:15
+    container_name: directus_db
+    restart: always
+    environment:
+      POSTGRES_DB: directus
+      POSTGRES_USER: directus
+      POSTGRES_PASSWORD: directus123
+    volumes:
+      - directus-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U directus"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  directus:
+    image: directus/directus:latest
+    container_name: directus_app
+    restart: always
+    ports:
+      - "8055:8055"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      KEY: "directus-key" # 🔐 секретный ключ (можно заменить на сгенерированный)
+      SECRET: "directus-secret" # 🔒 для JWT и cookies (тоже можно сгенерировать)
+      DATABASE_CLIENT: "pg"
+      DATABASE_HOST: "db"
+      DATABASE_PORT: "5432"
+      DATABASE_NAME: "directus"
+      DATABASE_USER: "directus"
+      DATABASE_PASSWORD: "directus123"
+      ADMIN_EMAIL: "admin@admin.com"
+      ADMIN_PASSWORD: "admin123"
+      ADMIN_FIRST_NAME: "Admin"
+      ADMIN_LAST_NAME: "Admin"
+      CORS_ENABLED: "true"
+      CORS_ORIGIN: "http://localhost:5173"
+    volumes:
+      - ./uploads:/directus/uploads
+      - ./extensions:/directus/extensions
+
+volumes:
+  directus-db-data:

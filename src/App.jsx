@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 
 // Страницы
 import Home from './pages/Home'
@@ -10,21 +10,12 @@ import ChildProfile from './pages/ChildProfile'
 import Library from './pages/Library'
 import PoemLearner from './PoemLearner'
 
+// Компоненты
+import BottomNav from './components/BottomNav'
+
 export default function App() {
   return (
-    <div className="app">
-      <header>
-        <h1>Zubrify</h1>
-        <nav>
-          <Link to="/">Домой</Link> |{" "}
-          <Link to="/learn">Загрузить своё</Link> |{" "}
-          <Link to="/library">Библиотека</Link> |{" "}
-          <Link to="/login">Вход</Link> |{" "}
-          <Link to="/register">Регистрация</Link> |{" "}
-          <Link to="/profile">Профиль</Link>
-        </nav>
-      </header>
-
+    <div className="app pb-16"> {/* pb-16 чтобы контент не перекрывался нижним баром */}
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -36,6 +27,8 @@ export default function App() {
           <Route path="/child/:id" element={<ChildProfile />} />
         </Routes>
       </main>
+
+      <BottomNav />
     </div>
   )
 }

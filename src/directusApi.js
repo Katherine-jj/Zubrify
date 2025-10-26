@@ -1,15 +1,27 @@
-import { createDirectus, rest, readItems, createItem, authentication } from '@directus/sdk'
+import { createDirectus } from '@directus/sdk'
 
-const API_URL = 'http://localhost:8055'
+const directus = createDirectus('http://localhost:8055')
 
-const directus = createDirectus(API_URL)
-  .with(rest())
-  .with(authentication())
+// --- Регистрация пользователя ---
+export async function registerUser(name, email, password) {
+  try {
+    const user = await directus.items('users').createOne({
+      name,
+      email,
+      password
+    })
+    console.log('Пользователь зарегистрирован:', user)
+    return user
+  } catch (error) {
+    console.error('Ошибка при регистрации:', error)
+    throw error
+  }
+}
 
-// --- Авторизация пользователя ---
+// --- Логин ---
 export async function loginUser(email, password) {
   try {
-    const response = await directus.login(email, password)
+    const response = await directus.auth.login({ email, password })
     console.log('Авторизация успешна:', response)
     return response
   } catch (error) {
@@ -18,71 +30,42 @@ export async function loginUser(email, password) {
   }
 }
 
-// --- Регистрация нового пользователя ---
-export async function registerUser(email, password, first_name) {
-  try {
-    // Создаём пользователя в Directus
-    const user = await directus.request(
-      createItem('parents', {
-        parent_name,
-        email,
-        pass,
-      })
-    )
-    console.log('Пользователь зарегистрирован:', user)
-    return user
-  } catch (error) {
-    console.error('Ошибка регистрации:', error)
-    throw error
-  }
-}
 
-// --- Добавление ребёнка для родителя ---
-export async function addChild(parentId, child_name, child_age, child_class) {
-  try {
-    const child = await directus.request(
-      createItem('children', {
-        child_parent: parentId,
-        child_name,
-        child_age,
-        child_class
-      })
-    )
-    console.log('Ребёнок добавлен:', child)
-    return child
-  } catch (error) {
-    console.error('Ошибка при добавлении ребёнка:', error)
-    throw error
-  }
-}
 
-// --- Получение всех детей родителя ---
+
+// Получение всех детей родителя
 export async function getChildren(parentId) {
-  try {
-    const children = await directus.request(
-      readItems('children', {
-        filter: { parent: { _eq: parentId } },
-      })
-    )
-    console.log('Список детей:', children)
-    return children
-  } catch (error) {
-    console.error('Ошибка при получении списка детей:', error)
-    throw error
-  }
+  const data = await directus.items('children').readByQuery({
+    filter: { parent: { _eq: parentId } },
+    fields: ['id','name','age','grade','total_poems_learned','average_score','last_review']
+  })
+  return data.data
 }
 
-// --- Получение списка стихов из коллекции "poems" ---
-export async function getPoems() {
-  try {
-    const poems = await directus.request(
-      readItems('poems')
-    )
-    console.log('Список стихов:', poems)
-    return poems
-  } catch (error) {
-    console.error('Ошибка при получении стихов:', error)
-    throw error
-  }
+// Добавление ребёнка
+export async function addChild(parentId, name, age, grade) {
+  return await directus.items('children').createOne({
+    name,
+    age,
+    grade,
+    parent: parentId,
+    total_poems_learned: 0,
+    average_score: 0,
+    last_review: null
+  })
 }
+
+// Получение одного ребёнка
+export async function getChild(childId) {
+  return await directus.items('children').readOne(childId)
+}
+
+// Получение списка стихов
+export async function getPoems() {
+  const data = await directus.items('poems').readMany({
+    fields: ['id','title','author','poem_text','class','year_published','image']
+  })
+  return data.data
+}
+
 export default directus
