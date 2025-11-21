@@ -1,0 +1,61 @@
+* ChildProfile.css */
+.child-wrapper {
+padding: 16px;
+font-family: 'TT Firs Neue', sans-serif;
+color: #303030;
+}
+
+
+.child-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 20px;
+}
+
+
+.child-user-info {
+display: flex;
+align-items: center;
+gap: 12px;
+}
+
+
+.child-avatar { width: 50px; height: 50px; border-radius: 50%; }
+.child-role { font-size: 18px; font-weight: 600; }
+.child-class { font-size: 14px; color: #777; }
+.child-bell { background: none; border: none; font-size: 22px; }
+
+
+.child-cards { display: flex; gap: 12px; margin-bottom: 20px; }
+.child-card { flex: 1; border-radius: 16px; padding: 16px; color: #fff; position: relative; }
+.child-card.blue { background: #6C8DFF; }
+.child-card.orange { background: #FFA673; }
+.child-card-number { font-size: 32px; font-weight: 700; }
+.child-card-text { font-size: 14px; }
+.child-card-arrow { position: absolute; top: 14px; right: 14px; width: 22px; }
+
+
+.child-menu { background: #fff; border-radius: 16px; padding: 12px; margin-bottom: 24px; }
+.child-menu-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; }
+
+
+.child-block-title { font-size: 20px; font-weight: 600; margin: 16px 0 12px; }
+
+
+.child-progress { display: flex; justify-content: space-between; margin-bottom: 20px; }
+.child-progress-item { width: 32%; text-align: center; }
+.child-progress-bg { width: 100%; }
+.child-progress-value { margin-top: -40px; font-size: 22px; font-weight: 700; }
+.child-progress-month { font-size: 14px; margin-top: 4px; }
+
+
+.child-history-item { display: flex; align-items: center; background: #fff; padding: 10px; border-radius: 12px; margin-bottom: 10px; gap: 12px; }
+.child-history-img { width: 54px; height: 54px; border-radius: 12px; object-fit: cover; }
+.child-history-title { font-size: 16px; font-weight: 600; }
+.child-history-author { font-size: 14px; color: #777; }
+.child-history-time { margin-left: auto; font-size: 14px; color: #555; }
+
+
+.child-empty { text-align: center; padding: 20px 0; color: #777; }
+.child-exit { display: flex; align-items: center; gap: 10px; padding: 12px; font-size: 16px; margin-top: 20px; }

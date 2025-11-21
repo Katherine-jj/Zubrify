@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   db:
     image: postgres:15
@@ -8,7 +10,8 @@ services:
       POSTGRES_USER: directus
       POSTGRES_PASSWORD: directus123
     volumes:
-      - directus-db-data:/var/lib/postgresql/data
+      - directus-db-data:/var/lib/postgresql/data  # сохраняем данные на диск
+      - ./backups:/backups                         # для хранения бэкапов вне контейнера
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U directus"]
       interval: 5s
@@ -25,8 +28,8 @@ services:
       db:
         condition: service_healthy
     environment:
-      KEY: "directus-key" # 🔐 секретный ключ (можно заменить на сгенерированный)
-      SECRET: "directus-secret" # 🔒 для JWT и cookies (тоже можно сгенерировать)
+      KEY: "directus-key"
+      SECRET: "directus-secret" 
       DATABASE_CLIENT: "pg"
       DATABASE_HOST: "db"
       DATABASE_PORT: "5432"
@@ -38,7 +41,7 @@ services:
       ADMIN_FIRST_NAME: "Admin"
       ADMIN_LAST_NAME: "Admin"
       CORS_ENABLED: "true"
-      CORS_ORIGIN: "http://localhost:5173"
+      CORS_ORIGIN: "http://localhost:5173,http://192.168.0.33:5173"
     volumes:
       - ./uploads:/directus/uploads
       - ./extensions:/directus/extensions

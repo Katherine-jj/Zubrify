@@ -1,0 +1,11 @@
+.horizontal-slider {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 20px;
+}
+
+.horizontal-slider::-webkit-scrollbar {
+  display: none;
+}

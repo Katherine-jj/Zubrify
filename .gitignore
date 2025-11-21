@@ -1,1 +1,47 @@
+# === Node ===
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# === Build ===
+dist/
+build/
+.eslintcache
+
+# === Vite ===
+.vite/
+*.local
+
+# === Capacitor / Android / iOS ===
+android/app/build/
+android/build/
+android/.gradle/
+android/.idea/
+android/local.properties
+android/capacitor-cordova-ios-plugins
+android/capacitor-cordova-android-plugins
+android/.cxx/
+
+ios/App/build/
+ios/App/Pods/
+ios/App/*.xcworkspace
+ios/App/*.xcuserdata
+
+# === Directus ===
+directus/uploads/
+directus/extensions/
+directus/database/
+directus/backups/
+
+# Не пушить docker контейнеры
+directus/node_modules/
+directus/.cache/
+
+# === OS files ===
+.DS_Store
+Thumbs.db
+
+# === Environment files ===
+.env
+.env.*

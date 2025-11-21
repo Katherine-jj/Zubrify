@@ -1,0 +1,60 @@
+/* ------------------------------
+   Общие стили
+------------------------------ */
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.library-container {
+  padding: 24px 20px 120px;
+  font-family: 'TT Firs Neue Trl', sans-serif;
+}
+
+/* ------------------------------
+   Заголовок
+------------------------------ */
+
+.library-title {
+  margin: 0 0 16px;
+  font-size: 32px;
+  font-weight: 500; /* medium */
+  color: #000;
+}
+
+
+
+/* ------------------------------
+   Табы классов
+------------------------------ */
+
+.class-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 6px 0 10px;
+  margin-bottom: 10px;
+  scrollbar-width: none;
+}
+
+.class-tabs::-webkit-scrollbar { display: none; }
+
+.class-tabs button {
+  font-size: 14px;
+  font-weight: 400;
+  font-family: 'TT Firs Neue Trl';
+  color: #8D93A3;
+  background: transparent;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.class-tabs button.active {
+  background: #F1F2F6;
+  color: #0A2753;
+}

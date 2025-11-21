@@ -1,0 +1,119 @@
+/* Общий стиль страницы */
+.poem-page {
+  padding-top: 53px;
+  font-family: 'TT Firs Neue', sans-serif;
+  color: #303030;
+  position: relative;
+  padding-bottom: 40px;
+}
+
+/* Верхние кнопки */
+.top-buttons {
+  position: absolute;
+  top: 90px;
+  left: 0;
+  right: 0;
+  padding: 0 33px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 50;
+}
+
+.back-btn,
+.like-btn {
+  background: rgba(255,255,255,0.9);
+  border: none;
+  width: 42px;
+  height: 42px;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  cursor: pointer;
+}
+
+/* Обёртка картинки */
+.poem-image-wrapper {
+  padding: 0 20px;
+}
+
+.poem-image {
+  width: 100%;
+  height: 283px;
+  object-fit: cover;
+  border-radius: 32px;
+  margin-top: 20px;
+}
+
+/* Контент */
+.poem-content {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+
+}
+
+.poem-title-learn { /* ПОПРАВИТЬ------------------------------------------------------------------------*/
+  font-size: 16px;
+  font-weight: 500;
+  
+}
+
+.poem-author-learn {
+  font-size: 18px;
+  color: #949494;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+/* Текст стиха */
+.poem-text p {
+  margin: 0 0 10px;
+  line-height: 1.45;
+  font-size: 18px;
+  color: #949494;
+}
+
+.loading {
+  padding: 40px;
+  font-size: 20px;
+}
+
+/* === Фиксированная кнопка "Учить" === */
+.learn-btn {
+  position: fixed;
+  bottom: 28px;
+  right: 22px;
+
+  background: #303030;
+  color: white;
+
+  font-family: 'TT Firs Neue', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+
+  padding: 16px 28px;
+  border-radius: 40px;
+  border: none;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+
+  cursor: pointer;
+  z-index: 999;
+}
+
+.learn-btn .arrow {
+  font-size: 26px;
+  color: #c8c8c8;
+  line-height: 1;
+}
+
+.learn-btn:active {
+  transform: scale(0.97);
+}

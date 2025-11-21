@@ -1,0 +1,201 @@
+.learn-page {
+  padding-top: 53px;
+  padding-bottom: 120px; /* чтобы кнопки не перекрывали текст */
+  font-family: "TT Firs Neue", sans-serif;
+  color: #303030;
+}
+
+/* Шапка */
+.learn-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 20px 12px;
+}
+
+.learn-back {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #303030;
+  padding: 0;
+}
+
+.learn-title {
+  font-family: "TT Firs Neue", sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.15;
+  margin-top: 4px;
+}
+
+
+/* Прогресс-бар */
+/* Обёртка 281px + иконки */
+.learn-progress-wrapper {
+  margin: 10px 0 24px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+/* Иконки слева и справа */
+.progress-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  opacity: 0.9;
+}
+
+/* Сам прогресс-бар */
+.learn-progress-bar-large {
+  width: 281px;
+  height: 13px;
+  border-radius: 999px;
+  background: #EDEDED;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+/* Заполнение */
+.learn-progress-fill-large {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+
+/* Карточка со стихотворением */
+.learn-poem-card {
+  margin: 0 16px;
+  padding: 18px 18px 24px;
+  background: #f7f7f7;
+  border-radius: 24px;
+}
+
+.poem-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.poem-author {
+  font-size: 16px;
+  opacity: 0.7;
+  margin-bottom: 16px;
+}
+
+.learn-text-block {
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.poem-line {
+  margin: 0 0 4px;
+}
+
+/* Блюр строк */
+.poem-line.blurred {
+  filter: blur(4px);
+}
+
+/* Кнопка-глаз (левая нижняя) */
+.eye-btn {
+  position: fixed;
+  bottom: 30px;
+  left: 24px;
+
+  width: 52px;
+  height: 52px;
+  border-radius: 26px;
+  border: none;
+
+  background: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.eye-btn.active {
+  background: #2e2e2e;
+  color: #ffffff;
+}
+
+/* Основная кнопка в правом нижнем углу */
+.primary-learn-btn {
+  position: fixed;
+  bottom: 28px;
+  right: 22px;
+
+  background: #2e2e2e;
+  color: #ffffff;
+
+  font-size: 18px;
+  font-weight: 500;
+
+  padding: 16px 26px;
+  border-radius: 40px;
+  border: none;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+
+.primary-learn-btn .arrow {
+  font-size: 24px;
+  color: #c8c8c8;
+  line-height: 1;
+}
+
+.primary-learn-btn:active {
+  transform: scale(0.97);
+}
+
+/* Финальный экран */
+.learn-finish {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.finish-illustration-wrap {
+  margin-bottom: 24px;
+}
+
+/* временная заглушка вместо картинки */
+.finish-illustration-placeholder {
+  font-size: 80px;
+}
+
+.finish-title {
+  font-size: 22px;
+  margin-bottom: 32px;
+}
+
+.finish-library-btn {
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto;
+
+  background: #2e2e2e;
+  color: #ffffff;
+  border: none;
+
+  padding: 16px;
+  border-radius: 40px;
+
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+}

@@ -1,0 +1,66 @@
+.poem-item {
+  display: flex;
+  align-items: center;
+  background: #EEEEF0;
+  padding: 4px 6px;
+  border-radius: 16px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+  cursor: pointer;
+}
+
+.poem-rank {
+  width: 24px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #C1C5CE;
+  text-align: center;
+  margin-right: 12px;
+}
+
+.poem-thumb {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  object-fit: cover;
+  margin-right: 12px;
+}
+
+.poem-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* центрирование по вертикали */
+  margin-top: 10px;        /* лёгкое поднятие вверх */
+}
+
+
+.poem-item .poem-title {
+  font-size: 16px !important;
+  font-weight: 500;
+  color: #0A2753;
+  margin: 0 0 2px;
+  line-height: 1.05;
+}
+
+.poem-author {
+  font-size: 13px;
+  font-weight: 400;
+  color: #7C8697;
+  margin: 0;
+  line-height: 1.1;
+}
+.poem-extra {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 400;
+  font-family: 'TT Firs Neue Trl';
+  color: #7C8697;
+}
+
+.poem-extra img {
+  width: 14px;
+  height: 14px;
+  opacity: 0.8;
+}

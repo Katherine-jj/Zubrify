@@ -1,0 +1,189 @@
+/* === Общий стиль страницы === */
+.parent-profile {
+  font-family: "TT Firs Neue", sans-serif;
+  background: #F7F7F8;
+  min-height: 100vh;
+  padding: 20px;
+  color: #1E1E1E;
+}
+
+
+/* === Заголовок === */
+.pp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.pp-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+}
+
+
+/* === Кнопки Войти / Регистрация === */
+.pp-auth-links {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.pp-btn {
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Прозрачная кнопка */
+.pp-btn-outline {
+  background: #FFFFFF;
+  border: 1px solid #E2E2E3;
+  color: #333;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* Чёрная кнопка */
+.pp-btn-primary {
+  background: #1F1F1F;
+  border: none;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+
+/* === Карточка профиля родителя === */
+.pp-card {
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 18px;
+  box-shadow: 0 6px 22px rgba(0,0,0,0.06);
+  margin-bottom: 22px;
+}
+
+.pp-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pp-parent-name {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+
+
+/* === Блок: Добавить ребёнка === */
+.pp-add-child {
+  margin-bottom: 22px;
+}
+
+.pp-subtitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+/* Поля ввода */
+.pp-inputs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.pp-input {
+  flex: 1 1 150px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: #FFFFFF;
+  border: 1px solid #E4E4E7;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+.pp-input:focus {
+  border-color: #1F1F1F;
+  box-shadow: 0 0 0 4px rgba(0,0,0,0.06);
+}
+
+
+/* Кнопка "Добавить" */
+.pp-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+/* === Список детей === */
+.pp-children-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Карточка одного ребёнка */
+.pp-child-item {
+  background: #FFFFFF;
+  padding: 14px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  transition: 0.2s;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+}
+
+.pp-child-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+}
+
+/* Ссылка на ребёнка */
+.pp-child-link {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-decoration: none;
+  color: #1E1E1E;
+  flex: 1;
+}
+
+.pp-child-name {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.pp-child-meta {
+  font-size: 14px;
+  color: #757575;
+}
+
+/* Если детей нет */
+.pp-empty {
+  font-size: 15px;
+  color: #888;
+  padding: 6px 2px;
+}
+
+
+/* === Адаптивность === */
+@media (max-width: 520px) {
+  .pp-inputs {
+    flex-direction: column;
+  }
+
+  .pp-btn {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+}
