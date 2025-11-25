@@ -1,40 +1,22 @@
-// === directusApi.js ===
 
-import {
-  createDirectus,
-  rest,
-  authentication,
-  readItems,
-  readItem,
-  createItem,
-  readMe
-} from '@directus/sdk';
 
-// URL Directus
 export const API_URL = "http://localhost:8055";
 
-// Создаём Directus-клиент
-export const directus = createDirectus(API_URL)
-  .with(rest())
-  .with(authentication());
-
-
-// ======================================================
-// 1) РЕГИСТРАЦИЯ ЧЕРЕЗ /auth/register (SDK этого не умеет)
-// ======================================================
-export async function registerUser(name, email, password) {
+// 1) Регистрация пользователя
+// ================================
+export async function registerChild(user) {
   const res = await fetch(`${API_URL}/users`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      first_name: name,
-      email,
-      password,
+      first_name: user.firstName,
+      last_name: user.lastName,
+      middle_name: user.middleName || null,
+      email: user.email,
+      password: user.password,
+      grade: user.gradeId,
       status: "active",
-      role: "61e53b06-0669-4b06-9ee3-c7a667b20f9b",   // ← нужен правильный
-      type: "parent"
+      role: "61e53b06-0669-4b06-9ee3-c7a667b20f9b"
     })
   });
 
@@ -48,158 +30,95 @@ export async function registerUser(name, email, password) {
 }
 
 
-
-// ======================================================
-// 2) ЛОГИН (НОВЫЙ SDK)
-// ======================================================
-
+// 2) Авторизация пользователя
+// ================================
 export async function loginUser(email, password) {
-  try {
-    const response = await directus.login({
-      email: email,
-      password: password
-    });
+  const res = await fetch(`${API_URL}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email,
+      password,
+      mode: "json"
+    })
+  });
 
-    return response;
-  } catch (error) {
-    console.error("Ошибка входа:", error);
-    throw error;
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.errors?.[0]?.message || "Ошибка входа");
   }
+
+  localStorage.setItem("access_token", data.data.access_token);
+  localStorage.setItem("refresh_token", data.data.refresh_token);
+
+  return data.data;
 }
 
 
-
-
-// ======================================================
-// 3) ТЕКУЩИЙ ПОЛЬЗОВАТЕЛЬ
-// ======================================================
-
+// 3) Получить текущего пользователя
+// ================================
 export async function getCurrentUser() {
-  try {
-    return await directus.request(
-      readMe({
-        fields: ['id', 'first_name', 'email', 'type', 'role']
-      })
-    );
-  } catch (error) {
-    console.error("Ошибка получения пользователя:", error);
-    return null;
-  }
-}
+  const token = localStorage.getItem("access_token");
+  if (!token) return null;
 
-
-
-// ======================================================
-// 4) ДЕТИ
-// ======================================================
-
-export async function getChildren(parentId) {
-  return await directus.request(
-    readItems('children', {
-      filter: { parent: { _eq: parentId } },
-      fields: ['id', 'name', 'age', 'grade', 'total_poems_learned']
-    })
+  const res = await fetch(
+    `${API_URL}/users/me?fields=id,first_name,last_name,grade.id,grade.num,email`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
   );
+
+  const data = await res.json();
+  if (!res.ok) return null;
+
+  return data.data;
 }
 
 
-export async function addChild(parentId, name, age, grade) {
-  return await directus.request(
-    createItem('children', {
-      name,
-      age,
-      grade,
-      parent: parentId,
-      total_poems_learned: 0
+
+
+// 4) Выход из системы
+// ================================
+export async function logoutUser() {
+  const refresh = localStorage.getItem("refresh_token");
+
+  await fetch(`${API_URL}/auth/logout`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      refresh_token: refresh,
+      mode: "json"
     })
-  );
+  });
+
+  localStorage.clear();
 }
 
-export async function getChild(childId) {
-  return await directus.request(readItem('children', childId));
+
+// 5) Получить классы (grades)
+// ================================
+export async function getGrades() {
+  const res = await fetch(`${API_URL}/items/grades?fields=id,num&sort=id`);
+  const data = await res.json();
+
+  if (!res.ok) throw new Error("Ошибка загрузки классов");
+
+  return data.data;
 }
 
 
-
-// ======================================================
-// 5) СТИХИ
-// ======================================================
-
+// 6) Получить стихи
+// ================================
 export async function getPoems() {
-  return await directus.request(
-    readItems('poems', {
-      fields: ['id', 'title', 'author', 'text', 'grade', 'image']
-    })
+  const res = await fetch(
+    `${API_URL}/items/poems?fields=id,title,author.name,text,grade.id,image`
   );
+  const data = await res.json();
+
+  if (!res.ok) throw new Error("Ошибка загрузки стихов");
+
+  return data.data;
 }
-
-
-
-// ======================================================
-// 6) СТАТИСТИКА РЕБЁНКА
-// ======================================================
-
-export async function getChildStats(childId) {
-  try {
-    const progressRes = await directus.request(
-      readItems('progress', {
-        filter: { child: { _eq: childId } },
-        sort: ['month'],
-        fields: ['month', 'poems_learned', 'poems_planned']
-      })
-    );
-
-    const learnedRes = await directus.request(
-      readItems('learned_poems', {
-        filter: { child: { _eq: childId } },
-        fields: [
-          'id',
-          'status',
-          'date_learned',
-          'time_spent',
-          'poem.id',
-          'poem.title',
-          'poem.author.name',
-          'poem.image'
-        ]
-      })
-    );
-
-    const history = learnedRes.filter((l) => l.status === "выучено");
-    const planned = learnedRes.filter((l) => l.status !== "выучено");
-
-    return {
-      learned: history.length,
-      planned: planned.length,
-      progress: progressRes.map((p) => ({
-        name: p.month,
-        value: p.poems_learned
-      })),
-      history: history.map((l) => ({
-        id: l.poem.id,
-        title: l.poem.title,
-        author: l.poem.author?.name,
-        time: l.time_spent,
-        image: l.poem.image
-      })),
-      uploaded: planned.map((l) => ({
-        id: l.poem.id,
-        title: l.poem.title,
-        author: l.poem.author?.name,
-        time: l.time_spent,
-        image: l.poem.image
-      }))
-    };
-  } catch (error) {
-    console.error("Ошибка статистики:", error);
-    return {
-      learned: 0,
-      planned: 0,
-      progress: [],
-      history: [],
-      uploaded: []
-    };
-  }
-}
-
-export default directus;

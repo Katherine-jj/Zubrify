@@ -1,50 +1,26 @@
 version: '3.8'
 
 services:
-  db:
-    image: postgres:15
-    container_name: directus_db
-    restart: always
-    environment:
-      POSTGRES_DB: directus
-      POSTGRES_USER: directus
-      POSTGRES_PASSWORD: directus123
-    volumes:
-      - directus-db-data:/var/lib/postgresql/data  # сохраняем данные на диск
-      - ./backups:/backups                         # для хранения бэкапов вне контейнера
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U directus"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
   directus:
     image: directus/directus:latest
     container_name: directus_app
     restart: always
     ports:
       - "8055:8055"
-    depends_on:
-      db:
-        condition: service_healthy
     environment:
       KEY: "directus-key"
       SECRET: "directus-secret" 
-      DATABASE_CLIENT: "pg"
-      DATABASE_HOST: "db"
-      DATABASE_PORT: "5432"
-      DATABASE_NAME: "directus"
-      DATABASE_USER: "directus"
-      DATABASE_PASSWORD: "directus123"
+
+      # Используем SQLite
+      DATABASE_CLIENT: "sqlite3"
+      DATABASE_FILENAME: "database.sqlite"
+
       ADMIN_EMAIL: "admin@admin.com"
       ADMIN_PASSWORD: "admin123"
-      ADMIN_FIRST_NAME: "Admin"
-      ADMIN_LAST_NAME: "Admin"
       CORS_ENABLED: "true"
       CORS_ORIGIN: "http://localhost:5173,http://192.168.0.33:5173"
+
     volumes:
+      - ./database:/directus/database
       - ./uploads:/directus/uploads
       - ./extensions:/directus/extensions
-
-volumes:
-  directus-db-data:

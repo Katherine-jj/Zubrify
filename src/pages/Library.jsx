@@ -1,3 +1,5 @@
+// src/pages/Library.jsx
+
 import React, { useEffect, useState } from "react";
 import "../css/Library.css";
 import { useNavigate } from "react-router-dom";
@@ -5,55 +7,99 @@ import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/SearchBar/SearchBar";
 import GradePoemList from "../components/GradePoemList/GradePoemList";
 import PoemItem from "../components/PoemItem/PoemItem";
+import UploadPoemModal from "../components/UploadPoemModal";
 
-const API_URL = "http://localhost:8055";
+import { getPoems, getCurrentUser, getGrades } from "../directusApi";
 
 export default function Library() {
+  const [user, setUser] = useState(null);
   const [poems, setPoems] = useState([]);
+  const [grades, setGrades] = useState([]);
+
   const [search, setSearch] = useState("");
-  const [selectedGrade, setSelectedGrade] = useState("4");
+  const [selectedGrade, setSelectedGrade] = useState("");
+
+  const [showUpload, setShowUpload] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`${API_URL}/items/poems?fields=id,title,author.name,image,grade.num`)
-      .then(res => res.json())
-      .then(data => setPoems(data.data || []));
+    async function load() {
+      const me = await getCurrentUser();
+      if (!me) {
+        navigate("/login");
+        return;
+      }
+      setUser(me);
+
+      const allGrades = await getGrades();
+      setGrades(allGrades);
+
+      const allPoems = await getPoems();
+      setPoems(allPoems);
+
+      setSelectedGrade(String(me.grade?.id));
+    }
+    load();
   }, []);
 
-  const fixedPoems = poems.filter(p => p.grade?.num === 3);
+  if (!user || !grades.length) return <p>Загрузка...</p>;
 
+// Стихи для выбранного класса
   const filtered = poems.filter(p => {
-    return (
-      p.title.toLowerCase().includes(search.toLowerCase()) &&
-      String(p.grade?.num) === selectedGrade
-    );
+    const title = (p.title || "").toLowerCase();
+
+    // Нормализуем автора (строка)
+    const author =
+      (typeof p.author === "string"
+        ? p.author
+        : p.author?.name || ""
+      ).toLowerCase();
+
+    const matchTitle = title.includes(search.toLowerCase());
+    const matchAuthor = author.includes(search.toLowerCase());
+    const matchSearch = matchTitle || matchAuthor;
+
+    const matchGrade =
+      selectedGrade === "" || String(p.grade?.id) === selectedGrade;
+
+    return matchSearch && matchGrade;
   });
+
+  // Стихи "Учат в твоём классе"
+  const gradePoems = poems.filter(p => p.grade?.id === user.grade?.id);
 
   return (
     <div className="library-container">
       <h1 className="library-title">Библиотека</h1>
 
-      <SearchBar value={search} onChange={setSearch} />
-
-      <GradePoemList
-        title='Учат в <span class="highlight">3</span> классе'
-        poems={fixedPoems}
+      <SearchBar
+        value={search}
+        onChange={setSearch}
+        onUploadClick={() => setShowUpload(true)}
       />
 
+      <GradePoemList
+        title={`Учат в <span class="highlight">${user.grade?.num}</span> классе`}
+        poems={gradePoems}
+      />
+
+      {/* Табы классов */}
       <div className="class-tabs">
-        {["1","2","3","4","5","6","7","8","9","10","11"].map((grade) => (
+        {grades.map(g => (
           <button
-            key={grade}
-            className={selectedGrade === grade ? "active" : ""}
-            onClick={() => setSelectedGrade(grade)}
+            key={g.id}
+            className={String(selectedGrade) === String(g.id) ? "active" : ""}
+            onClick={() => setSelectedGrade(String(g.id))}
           >
-            {grade} класс
+            {g.num} класс
           </button>
         ))}
       </div>
 
+
+      {/* Список стихов */}
       <div className="poem-list">
-        {filtered.map((poem) => (
+        {filtered.map(poem => (
           <PoemItem
             key={poem.id}
             poem={poem}
@@ -61,6 +107,15 @@ export default function Library() {
           />
         ))}
       </div>
+
+      {showUpload && (
+        <UploadPoemModal
+          onClose={() => setShowUpload(false)}
+          childId={user.id}
+          childGrade={user.grade?.id}
+          onUploaded={() => window.location.reload()}
+        />
+      )}
     </div>
   );
 }

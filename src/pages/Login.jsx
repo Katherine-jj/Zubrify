@@ -1,67 +1,58 @@
-// src/pages/Login.jsx
-import React, { useState } from 'react'
-import { loginUser, getCurrentUser } from '../directusApi'
-import { useNavigate } from 'react-router-dom'
+import "../css/Auth.css";
+import React, { useState } from "react";
+import { loginUser, getCurrentUser } from "../directusApi";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   async function handleSubmit(e) {
-    e.preventDefault()
-    if (!email || !password) {
-      setError('Заполните все поля')
-      return
-    }
+    e.preventDefault();
+    setError("");
 
     try {
-      //Авторизация (получаем токен)
-      const authResponse = await loginUser(email, password)
+      await loginUser(email, password);
+      const user = await getCurrentUser();
+      if (!user) throw new Error("Не удалось загрузить профиль");
 
-      //данные текущего пользователя
-      const user = await getCurrentUser()
-
-      if (!user) throw new Error('Не удалось получить данные пользователя')
-
-      //Сохраняем id, имя и тип в localStorage
-      localStorage.setItem('userId', user.id)
-      localStorage.setItem('userName', user.first_name || user.name || '')
-      localStorage.setItem('userType', user.type || '')
-      localStorage.setItem('userRole', user.role || '')
-      localStorage.setItem('parentId', user.id);
-      localStorage.setItem('parentName', user.first_name || user.name || '');
-
-      // переходим в профиль (в зависимости от типа)
-      if (user.type === 'parent') navigate('/profile')
-      else if (user.type === 'child') navigate(`/child/${user.id}`)
-      else navigate('/')
-
-    } catch (err) {
-      console.error(err)
-      setError(err.message || 'Ошибка авторизации')
+      localStorage.setItem("userId", user.id);
+      navigate("/home");
+    } catch (e) {
+      setError(e.message);
     }
   }
 
   return (
-    <div className="login-page">
-      <h2>Вход в систему</h2>
-      <form onSubmit={handleSubmit}>
+    <div className="auth-page">
+      <h2 className="auth-title">Вход</h2>
+
+      <form className="auth-form" onSubmit={handleSubmit}>
         <input
+          type="email"
           placeholder="Email"
           value={email}
-          onChange={e => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
         />
+
         <input
           type="password"
           placeholder="Пароль"
           value={password}
-          onChange={e => setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Войти</button>
+
+        <button className="auth-btn" type="submit">Войти</button>
+
+        {error && <p className="auth-error">{error}</p>}
       </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+
+      <div className="auth-link">
+        Нет аккаунта? <span onClick={() => navigate("/register")}>Регистрация</span>
+      </div>
     </div>
-  )
+  );
 }

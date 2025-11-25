@@ -1,0 +1,107 @@
+.upload-overlay {
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(6px);
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.upload-modal {
+  width: 80%;
+  max-width: 350px;
+  background: white;
+  border-radius: 24px;
+  padding: 24px;
+  font-family: "TT Firs Neue", sans-serif;
+}
+
+.modal-title {
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 18px;
+  font-family: 'TT Firs Neue Trl';
+}
+
+.form-block {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #BCC3CF;
+  font-family: 'TT Firs Neue Trl';
+}
+
+.form-input {
+  width: 90%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  outline: none;
+  font-family: 'TT Firs Neue Trl';
+  color: #BCC3CF;
+  font-size: 12px;
+}
+
+
+.form-textarea {
+  width: 90%;
+  height: 160px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  resize: none;
+  outline: none;
+  font-family: 'TT Firs Neue Trl';
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.cancel-btn {
+  padding: 10px 16px;
+  background: #eee;
+  border-radius: 14px;
+  border: none;
+  font-size: 16px;
+}
+
+.save-btn {
+  padding: 10px 20px;
+  background: #2c2c2c;
+  color: white;
+  border-radius: 14px;
+  font-size: 16px;
+  border: none;
+}
+
+.modal-author {
+  margin-top: -8px;
+  margin-bottom: 12px;
+  font-size: 15px;
+  opacity: 0.7;
+}
+
+.preview-text-scroll {
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.preview-line {
+  font-size: 17px;
+  line-height: 1.45;
+  margin-bottom: 6px;
+  color: #303030;
+}
+
