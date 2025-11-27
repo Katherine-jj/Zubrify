@@ -85,15 +85,20 @@ export default function UserProfile() {
 
         <div className="child-card orange">
           <div className="child-card-number">{stats.planned}</div>
-          <div className="child-card-text">В планах</div>
+          <div className="child-card-text"
+          onClick={() => navigate("/favorites")}>В планах</div>
+          
           <img src={arrowAcc} className="child-card-arrow" />
         </div>
       </div>
 
       {/* MENU */}
       <div className="child-menu">
-        <div className="child-menu-item">
-          <img src={favHeart} /> Избранное
+        <div
+          className="child-menu-item"
+          onClick={() => navigate("/favorites")}
+        >
+        <img src={favHeart} /> Избранное
         </div>
         <div className="child-menu-item">
           <img src={settingsIcon} /> Настройка
