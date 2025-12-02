@@ -90,6 +90,91 @@ export async function getCurrentUser() {
   return data.data;
 }
 
+// создать пользовательский стих
+
+export async function findAuthorByName(name) {
+  const res = await fetch(
+    `${API_URL}/items/authors?filter[name][_eq]=${encodeURIComponent(name)}`,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`
+      }
+    }
+  );
+
+  const data = await res.json();
+  return data.data?.[0] || null;
+}
+
+export async function createAuthor(name) {
+  const res = await fetch(`${API_URL}/items/authors`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    },
+    body: JSON.stringify({ name })
+  });
+
+  const data = await res.json();
+  return data.data;
+}
+
+export async function createUserPoem(poem) {
+  let authorId = null;
+
+  if (poem.author) {
+    // 1. ищем автора в базе
+    let author = await findAuthorByName(poem.author);
+
+    // 2. если нет — создаём
+    if (!author) {
+      author = await createAuthor(poem.author);
+    }
+
+    authorId = author.id;
+  }
+
+  const res = await fetch(`${API_URL}/items/poems`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+    body: JSON.stringify({
+      title: poem.title,
+      text: poem.text,
+      grade: poem.grade,
+      owner: poem.owner,
+      is_user_uploaded: true,
+      author: authorId, // 👈 важно!
+    }),
+  });
+
+  const data = await res.json();
+
+  if (data.errors) {
+    console.error("Ошибка сохранения:", data.errors);
+    throw new Error("Failed to create poem");
+  }
+
+  return data.data;
+}
+
+
+export async function getUploadedPoems(userId) {
+  const res = await fetch(
+    `${API_URL}/items/poems?filter[owner][_eq]=${userId}&filter[is_user_uploaded][_eq]=true&fields=id,title,text,image,is_user_uploaded,author.id,author.name`,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`
+      }
+    }
+  );
+
+  const data = await res.json();
+  return data.data || [];
+}
 
 
 

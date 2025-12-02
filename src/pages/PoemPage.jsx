@@ -7,6 +7,7 @@ import favIconOff from "../assets/images/fav=off.svg";
 import favIconOn from "../assets/images/fav=on.svg";
 
 import { useFavorites } from "../context/FavoritesContext";
+import img1 from "../assets/images/1.png"; 
 
 const API_URL = "http://localhost:8055";
 
@@ -58,9 +59,16 @@ export default function PoemPage() {
       </div>
 
       {/* Картинка */}
+      
       <div className="poem-image-wrapper">
         <img
-          src={`${API_URL}/assets/${poem.image}`}
+          src={
+            poem.is_user_uploaded === true ||
+            poem.is_user_uploaded === "true" ||
+            !poem.image
+              ? img1
+              : `${API_URL}/assets/${poem.image}`
+          }
           alt={poem.title}
           className="poem-image"
         />

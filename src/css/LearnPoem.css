@@ -76,13 +76,13 @@
   border-radius: 24px;
 }
 
-.poem-title {
+.poem-title-learn {
   font-size: 24px;
   font-weight: 600;
   margin-bottom: 4px;
 }
 
-.poem-author {
+.poem-author-learn {
   font-size: 16px;
   opacity: 0.7;
   margin-bottom: 16px;

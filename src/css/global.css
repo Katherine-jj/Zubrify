@@ -1,0 +1,20 @@
+/* Убирает синюю подсветку при клике на Android/Chrome */
+button, a, input {
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+button:focus,
+button:active,
+a:focus,
+a:active,
+input:focus,
+input:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Chrome добавляет свой голубой фокус — отключаем */
+*:focus {
+  outline: none !important;
+}

@@ -10,6 +10,7 @@ import PoemItem from "../components/PoemItem/PoemItem";
 import UploadPoemModal from "../components/UploadPoemModal";
 
 import { getPoems, getCurrentUser, getGrades } from "../directusApi";
+import { createUserPoem } from "../directusApi";
 
 export default function Library() {
   const [user, setUser] = useState(null);
@@ -112,9 +113,14 @@ export default function Library() {
         <UploadPoemModal
           onClose={() => setShowUpload(false)}
           childId={user.id}
-          childGrade={user.grade?.id}
-          onUploaded={() => window.location.reload()}
+          childGrade={user.grade}
+          onUploaded={async (poem) => {
+            await createUserPoem(poem);
+            setShowUpload(false); // можно закрывать и здесь
+          }}
         />
+
+
       )}
     </div>
   );

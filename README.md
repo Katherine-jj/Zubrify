@@ -1,6 +1,6 @@
 # Poem Learner (Vite React prototype)
 
-Прототип приложения для по-строчного заучивания стихотворений. Использует Web Speech API для TTS (speechSynthesis) и ASR (SpeechRecognition / webkitSpeechRecognition). Работает в современных Chromium-браузерах.
+Прототип приложения для по-строчного заучивания стихотворений. 
 
 ## Установка и запуск
 
