@@ -12,7 +12,9 @@ import PoemPage from './pages/PoemPage';
 import LearnPoem from "./pages/LearnPoem";
 import { FavoritesProvider } from "./context/FavoritesContext";
 import Favorites from "./pages/Favorites";
-
+import ProfileSettings from "./pages/ProfileSettings";
+import HistoryPageFull from "./pages/HistoryPageFull.jsx"
+import UploadedPoemsListFull from "./pages/UploadedPoemsListFull.jsx"
 
 // Компоненты
 import BottomNav from './components/BottomNav';
@@ -21,7 +23,7 @@ export default function App() {
   const location = useLocation();
 
   // Маршруты, где bottom nav скрываем
-  const hideOnRoutes = ["/poem/", "/learn/"]; // home тут быть не должно!
+  const hideOnRoutes = ["/poem/", "/learn/","/register","/login"]; // home тут быть не должно!
 
 
   const shouldHideBottomNav = hideOnRoutes.some(path =>
@@ -41,7 +43,10 @@ export default function App() {
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/poem/:id" element={<PoemPage />} />
             <Route path="/learn/:id" element={<LearnPoem />} />
-            <Route path="/favorites" element={<Favorites />} />
+            <Route path="/favorites/:id" element={<Favorites />} />
+            <Route path="/profile/settings" element={<ProfileSettings />} />
+            <Route path="/history" element={<HistoryPageFull />} />
+            <Route path="/uploaded" element={<UploadedPoemsListFull />} />
           </Routes>
         </FavoritesProvider>
       </main>

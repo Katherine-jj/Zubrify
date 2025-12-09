@@ -76,7 +76,7 @@ export async function getCurrentUser() {
   if (!token) return null;
 
   const res = await fetch(
-    `${API_URL}/users/me?fields=id,first_name,last_name,grade.id,grade.num,email`,
+    `${API_URL}/users/me?fields=id,first_name,last_name,grade.id,grade.num,email,ava.id,ava.image.id`,
     {
       headers: {
         Authorization: `Bearer ${token}`
@@ -147,7 +147,7 @@ export async function createUserPoem(poem) {
       grade: poem.grade,
       owner: poem.owner,
       is_user_uploaded: true,
-      author: authorId, // 👈 важно!
+      author: authorId
     }),
   });
 
@@ -297,4 +297,174 @@ export async function getFavoritesByUser(userId) {
   if (!res.ok) throw new Error("Ошибка загрузки избранного");
 
   return data.data;
+}
+
+export async function getUserProgress(userId) {
+  const token = localStorage.getItem("access_token");
+
+  const res = await fetch(
+    `${API_URL}/items/progress?filter[user][_eq]=${userId}&fields=id,status,started_at,completed_at,poem.id,poem.title,poem.author.name,poem.image,poem.is_user_uploaded&sort=-completed_at`,
+    {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+  );
+
+  const data = await res.json();
+  if (!res.ok) throw new Error("Ошибка загрузки прогресса");
+
+  return data.data || [];
+}
+
+export async function markPoemCompleted(userId, poemId) {
+  const token = localStorage.getItem("access_token");
+  if (!token) {
+    throw new Error("Нет токена авторизации");
+  }
+
+  // 1. Ищем существующую запись прогресса
+  let res = await fetch(
+    `${API_URL}/items/progress?filter[user][_eq]=${userId}&filter[poem][_eq]=${poemId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  let data = await res.json();
+
+  if (!res.ok) {
+    console.error("Ошибка поиска прогресса:", data);
+    throw new Error(data.errors?.[0]?.message || "Ошибка поиска прогресса");
+  }
+
+  const existing = data.data?.[0];
+
+  // 2. Формируем полезную нагрузку
+  const nowIso = new Date().toISOString();
+
+  // если запись уже есть — PATCH
+  if (existing) {
+    res = await fetch(`${API_URL}/items/progress/${existing.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        status: "completed",
+        completed_at: nowIso,
+      }),
+    });
+
+    data = await res.json();
+
+    if (!res.ok) {
+      console.error("Ошибка Directus при обновлении прогресса:", data);
+      throw new Error(
+        data.errors?.[0]?.message || "Ошибка обновления прогресса"
+      );
+    }
+
+    return data.data;
+  }
+
+  // если записи нет — POST
+  res = await fetch(`${API_URL}/items/progress`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      user: userId,
+      poem: poemId,
+      status: "completed",
+      started_at: nowIso,
+      completed_at: nowIso,
+    }),
+  });
+
+  data = await res.json();
+
+  if (!res.ok) {
+    console.error("Ошибка Directus при создании прогресса:", data);
+    throw new Error(
+      data.errors?.[0]?.message || "Ошибка создания прогресса"
+    );
+  }
+
+  return data.data;
+}
+
+export async function updateUser(id, data) {
+
+  const body = {};
+
+  if (data.first_name !== undefined) body.first_name = data.first_name;
+  if (data.last_name !== undefined) body.last_name = data.last_name;
+  if (data.middle_name !== undefined) body.middle_name = data.middle_name;
+  if (data.grade !== undefined) body.grade = data.grade;
+  if (data.avatar !== undefined) body.avatar = data.avatar;
+  if (data.role !== undefined) body.role = data.role;
+  if (data.email !== undefined) body.email = data.email;
+  if (data.ava !== undefined) body.ava = data.ava;
+
+
+  // обновление пароля
+  if (data.password && data.password.length > 0) {
+    body.password = data.password;
+  }
+
+  const token = localStorage.getItem("access_token"); // ← исправлено!
+
+  const res = await fetch(`${API_URL}/users/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(body)
+  });
+
+  const out = await res.json();
+  if (!res.ok) {
+    throw new Error(out.errors?.[0]?.message || "Не удалось обновить профиль");
+  }
+
+  return out.data;
+}
+
+export async function getAvatars() {
+  const res = await fetch(
+    `${API_URL}/items/avatars?fields=id,image.id,image.filename_download`,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`
+      }
+    }
+  );
+
+  const data = await res.json();
+  if (!res.ok) throw new Error("Ошибка загрузки аватаров");
+
+  return data.data;
+}
+
+// Получение истории изучения стихов пользователя
+export async function getLearningHistory(userId) {
+  const progress = await getUserProgress(userId);
+
+  return progress
+    .filter(p => p.status === "completed")
+    .map(p => ({
+      id: p.poem.id,
+      title: p.poem.title,
+      author: p.poem.author,
+      image: p.poem.image,
+      is_user_uploaded: p.poem.is_user_uploaded,
+      completed_at: p.completed_at,
+      time: p.poem.time || 0
+    }))
+    .sort((a, b) => new Date(b.completed_at) - new Date(a.completed_at));
 }

@@ -1,19 +1,18 @@
-/* Общий стиль страницы */
 .poem-page {
   padding-top: 53px;
-  font-family: 'TT Firs Neue', sans-serif;
+  font-family: "TT Firs Neue Trl", sans-serif;
   color: #303030;
   position: relative;
   padding-bottom: 40px;
 }
 
-/* Верхние кнопки */
+/* кнопки поверх картинки, ближе к статус-бару */
 .top-buttons {
   position: absolute;
-  top: 90px;
+  top: 85px;
   left: 0;
   right: 0;
-  padding: 0 33px;
+  padding: 0 34px;
   display: flex;
   justify-content: space-between;
   z-index: 50;
@@ -21,20 +20,32 @@
 
 .back-btn,
 .like-btn {
-  background: rgba(255,255,255,0.9);
   border: none;
-  width: 42px;
-  height: 42px;
-  font-size: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;      /* делаем кнопку круглой */
+  background: white;       /* как в макете */
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
   cursor: pointer;
+  padding: 0;
 }
 
-/* Обёртка картинки */
+/* ВАЖНО: svg не должен быть 56×56 ! */
+.back-btn img,
+.like-btn img {
+  width: 56px;   /* оптимально для кнопки 56px */
+  height: 56px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+
+
+
+/* Картинка */
 .poem-image-wrapper {
   padding: 0 20px;
 }
@@ -44,36 +55,32 @@
   height: 283px;
   object-fit: cover;
   border-radius: 32px;
-  margin-top: 20px;
+  margin-top: 16px;
 }
 
 /* Контент */
 .poem-content {
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-bottom: 20px;
-
+  padding: 20px 20px 32px;
 }
 
-.poem-title-learn { /* ПОПРАВИТЬ------------------------------------------------------------------------*/
-  font-size: 16px;
-  font-weight: 500;
-  
+.poem-title-learn {
+  font-size: 26px;
+  font-weight: 600;
+  margin: 18px 0 4px;
 }
 
 .poem-author-learn {
-  font-size: 18px;
+  font-size: 16px;
   color: #949494;
-  margin-top: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 /* Текст стиха */
 .poem-text p {
-  margin: 0 0 10px;
-  line-height: 1.45;
-  font-size: 18px;
-  color: #949494;
+  margin: 0 0 8px;
+  line-height: 1.5;
+  font-size: 17px;
+  color: #4f4f4f;
 }
 
 .loading {
@@ -81,20 +88,20 @@
   font-size: 20px;
 }
 
-/* === Фиксированная кнопка "Учить" === */
+/* Фиксированная кнопка "Учить" */
 .learn-btn {
   position: fixed;
   bottom: 28px;
   right: 22px;
 
   background: #303030;
-  color: white;
+  color: #ffffff;
 
-  font-family: 'TT Firs Neue', sans-serif;
-  font-size: 20px;
+  font-family: "TT Firs Neue Trl", sans-serif;
+  font-size: 18px;
   font-weight: 500;
 
-  padding: 16px 28px;
+  padding: 14px 26px;
   border-radius: 40px;
   border: none;
 
@@ -102,14 +109,13 @@
   align-items: center;
   gap: 10px;
 
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   cursor: pointer;
   z-index: 999;
 }
 
 .learn-btn .arrow {
-  font-size: 26px;
+  font-size: 24px;
   color: #c8c8c8;
   line-height: 1;
 }

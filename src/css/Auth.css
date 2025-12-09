@@ -1,53 +1,54 @@
-/* ========== ОБЩИЙ КОНТЕЙНЕР ======================================== */
-
+/* ========== КОНТЕЙНЕР ====================== */
 .auth-page {
   min-height: 100vh;
   padding: 32px 20px;
   background: #ffffff;
-  font-family: "TT Firs Neue", sans-serif;
+  font-family: "TT Firs Neue Trl";
 }
 
-/* Заголовок */
 .auth-title {
-  font-family: "TT Firs Neue", sans-serif;
   font-size: 28px;
   font-weight: 600;
-  color: #000000;
   margin-bottom: 24px;
 }
 
-/* ==================== ПОЛЯ ВВОДА ========================================= */
+/* ========== ПОЛЯ ВВОДА ======================= */
 
 .auth-form input,
 .auth-form select {
   width: 90%;
   background: #f5f5f7;
-  border: none;
+  border: 1.5px solid transparent;
   padding: 14px 16px;
   font-size: 16px;
-  border-radius: 14px;
-  margin-bottom: 14px;
+  border-radius: 16px;
 
-  font-family: "TT Firs Neue", sans-serif;
-  color: #404040;
+  font-family: "TT Firs Neue Trl";
+  color: #000;
+  margin-bottom: 16px;
 
   outline: none;
-  box-shadow: inset 0 0 0 1px transparent;
   transition: 0.2s;
+}
+
+.auth-form input::placeholder {
+  color: #b7bcc6;
 }
 
 .auth-form input:focus,
 .auth-form select:focus {
-  box-shadow: inset 0 0 0 1.5px #FF9F69;
   background: #ffffff;
+  border-color: #c8cbd2;
 }
 
-/* Плейсхолдер */
-.auth-form input::placeholder {
-  color: #b8bcc5;
+/* ——— Ошибочное поле ——— */
+
+.input-error {
+  background: #f8dada !important;
+  border-color: #cf6767 !important;
 }
 
-/*===============КНОПКА========================================= */
+/* ========== КНОПКА ====================== */
 
 .auth-btn {
   width: 100%;
@@ -56,43 +57,33 @@
   background: #404040;
   color: #ffffff;
   border: none;
-
   padding: 16px;
   border-radius: 40px;
 
   font-size: 17px;
   font-weight: 600;
-  font-family: "TT Firs Neue", sans-serif;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
+  font-family: "TT Firs Neue Trl", sans-serif;
 
   cursor: pointer;
   transition: 0.2s ease;
+}
+
+.auth-btn:hover {
+  background: #000;
 }
 
 .auth-btn:active {
   transform: scale(0.97);
 }
 
-.auth-btn:hover {
-  background: #000000;
-}
-
-
-
-/* ===ОШИБКА========================================= */
-
+/* ========== ТЕКСТ ОШИБКИ ====================== */
 .auth-error {
-  color: #FF9F69;
-  margin-top: 10px;
+  color: #cf6767;
+  margin-top: -6px;
   font-size: 14px;
 }
 
-/* Доп. элементы========================================= */
-
+/* ========== НИЖНЯЯ ССЫЛКА ====================== */
 .auth-link {
   margin-top: 18px;
   text-align: center;
@@ -101,27 +92,129 @@
 }
 
 .auth-link span {
-  color: #FF9F69;
+  color: #ff9f69;
   font-weight: 600;
   cursor: pointer;
 }
 
-/* ======= ЭКРАН ВЫБОРА АВТОРИЗАЦИИ ================ */
 
-.auth-start-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-top: 20px;
+/* Обёртка — нужна, чтобы скрыть стандартную стрелку */
+.select-wrapper {
+  position: relative;
+  width: 90%;
 }
 
-/* Светлая кнопка */
-.auth-btn-light {
-  background: #e5e5e7;
-  color: #1f1f1f;
+/* Сама стрелка */
+.select-wrapper::after {
+  content: "▾";
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 16px;
+  color: #80828a;
 }
 
-.auth-btn-light:hover {
-  background: #dcdcdc;
+/* Селект */
+.auth-form select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  width: 90%;
+  background: #f5f5f7;
+  border: 1.5px solid transparent;
+  padding: 14px 16px;
+  font-size: 16px;
+  border-radius: 16px;
+
+  font-family: "TT Firs Neue", sans-serif;
+  color: #000;
+  margin-bottom: 16px;
+
+  outline: none;
+  transition: 0.2s;
 }
 
+.auth-form select:focus {
+  background: #ffffff;
+  border-color: #c8cbd2;
+}
+
+.auth-form select option {
+  background: #ffffff;
+  color: #000;
+  font-size: 16px;
+  padding: 10px;
+  font-family: "TT Firs Neue", sans-serif;
+}
+
+/* === КАСТОМНЫЙ SELECT ======================================= */
+
+.custom-select {
+  width: 90%;
+  background: #f5f5f7;
+  border: 1.5px solid transparent;
+  border-radius: 16px;
+  padding: 14px 16px;
+  font-size: 16px;
+  position: relative;
+  cursor: pointer;
+  color: #000;
+  margin-bottom: 16px;
+  font-family: "TT Firs Neue  Trl", sans-serif !important;
+  transition: 0.2s;
+}
+
+.custom-select:hover {
+  background: #eeeeef;
+}
+
+.custom-select.open,
+.custom-select:focus-within {
+  background: #ffffff;
+  border-color: #c8cbd2;
+}
+
+.custom-select-value {
+  color: #000;
+}
+
+/* Стрелка */
+.custom-select .arrow {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 7px solid #80828a;
+  transform: translateY(-50%);
+}
+
+/* Выпадающее меню */
+.custom-select-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 100%;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  padding: 8px 0;
+  z-index: 20;
+}
+
+.custom-select-option {
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 10px;
+  transition: 0.15s;
+}
+
+.custom-select-option:hover {
+  background: #f5f5f7;
+}

@@ -36,6 +36,7 @@
   padding: 6px 0 10px;
   margin-bottom: 10px;
   scrollbar-width: none;
+  margin-top: 25px;
 }
 
 .class-tabs::-webkit-scrollbar { display: none; }

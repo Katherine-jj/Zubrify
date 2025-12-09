@@ -78,7 +78,7 @@ export default function UploadPoemModal({
               <button className="cancel-btn" onClick={onClose}>Отмена</button>
 
               <button className="save-btn" onClick={goToPreview}>
-                Просмотр →
+                Просмотр 
               </button>
             </div>
           </>
@@ -101,7 +101,7 @@ export default function UploadPoemModal({
               </button>
 
               <button className="save-btn" onClick={handleSave}>
-                Учить →
+                Учить 
               </button>
             </div>
           </>

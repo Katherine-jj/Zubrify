@@ -1,22 +1,30 @@
-.favorites-page {
+.poem-list-page {
   padding: 20px;
   padding-top: 10px;
-  font-family: "TT Firs Neue Trl";
+  font-family: "TT Firs Neue Trl", sans-serif;
+  background: #ffffff;
+  min-height: 100vh;
 }
 
-.favorites-header {
+/* HEADER */
+.poem-list-header {
   display: flex;
   align-items: center;
   gap: 45px;
   margin-bottom: 20px;
-  font-family: "TT Firs Neue Trl";
 }
-
+.title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  font-family: 'TT Firs Neue Trl';
+  color: #000;
+}
 .back-btn {
   width: 56px;
   height: 56px;
   border: none;
-
+  background: transparent;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -27,15 +35,18 @@
 .back-btn img {
   width: 56px;
   height: 56px;
+  height: auto;
 }
 
-.favorites-header h1 {
+.poem-list-header h1 {
   font-size: 26px;
   font-weight: 500;
-  font-family: "TT Firs Neue Trl";
+  font-family: "TT Firs Neue Trl", sans-serif;
+  color: #1D1D1F;
 }
 
-.favorites-list {
+/* LIST */
+.poem-list-wrapper {
   margin-top: 15px;
   display: flex;
   flex-direction: column;

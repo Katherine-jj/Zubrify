@@ -1,37 +1,48 @@
 .learn-page {
   padding-top: 53px;
-  padding-bottom: 120px; /* чтобы кнопки не перекрывали текст */
-  font-family: "TT Firs Neue", sans-serif;
+  padding-bottom: 120px;
+  font-family: "TT Firs Neue Trl", sans-serif;
   color: #303030;
+  background: #ffffff;
 }
 
 /* Шапка */
 .learn-header {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  flex-direction: column;
+  align-items: flex-start;
   padding: 0 20px 12px;
 }
 
+/* кнопка "< Назад" */
 .learn-back {
   background: none;
   border: none;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-size: 16px;
   color: #303030;
-  padding: 0;
+  cursor: pointer;
 }
 
+.learn-back-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+/* большой заголовок шага */
 .learn-title {
-  font-family: "TT Firs Neue", sans-serif;
+  font-family: "TT Firs Neue Trl", sans-serif !important;
+  margin-top: 10px;
   font-size: 32px;
   font-weight: 600;
-  line-height: 1.15;
-  margin-top: 4px;
+  line-height: 1.2;
 }
 
-
-/* Прогресс-бар */
-/* Обёртка 281px + иконки */
+/* Прогресс-бар + иконки */
 .learn-progress-wrapper {
   margin: 10px 0 24px;
   padding: 0 20px;
@@ -41,7 +52,6 @@
   gap: 14px;
 }
 
-/* Иконки слева и справа */
 .progress-icon {
   width: 24px;
   height: 24px;
@@ -49,26 +59,23 @@
   opacity: 0.9;
 }
 
-/* Сам прогресс-бар */
 .learn-progress-bar-large {
   width: 281px;
   height: 13px;
   border-radius: 999px;
-  background: #EDEDED;
+  background: #ededed;
   overflow: hidden;
   display: flex;
   align-items: center;
 }
 
-/* Заполнение */
 .learn-progress-fill-large {
   height: 100%;
   border-radius: 999px;
-  transition: width 0.4s ease;
+  transition: width 0.35s ease;
 }
 
-
-/* Карточка со стихотворением */
+/* Карточка стиха */
 .learn-poem-card {
   margin: 0 16px;
   padding: 18px 18px 24px;
@@ -97,12 +104,11 @@
   margin: 0 0 4px;
 }
 
-/* Блюр строк */
 .poem-line.blurred {
   filter: blur(4px);
 }
 
-/* Кнопка-глаз (левая нижняя) */
+/* Кнопка-глаз */
 .eye-btn {
   position: fixed;
   bottom: 30px;
@@ -120,16 +126,20 @@
   align-items: center;
   justify-content: center;
 
-  font-size: 24px;
   cursor: pointer;
+}
+
+.eye-btn img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
 }
 
 .eye-btn.active {
   background: #2e2e2e;
-  color: #ffffff;
 }
 
-/* Основная кнопка в правом нижнем углу */
+/* Основная кнопка */
 .primary-learn-btn {
   position: fixed;
   bottom: 28px;
@@ -173,14 +183,14 @@
   margin-bottom: 24px;
 }
 
-/* временная заглушка вместо картинки */
 .finish-illustration-placeholder {
   font-size: 80px;
 }
 
 .finish-title {
-  font-size: 22px;
+  font-size: 24px;
   margin-bottom: 32px;
+  font-weight: 500;
 }
 
 .finish-library-btn {
@@ -198,4 +208,9 @@
   font-size: 18px;
   font-weight: 500;
   cursor: pointer;
+}
+
+.backButton{
+  color: #777777;
+  font-family: "TT Firs Neue Trl"
 }

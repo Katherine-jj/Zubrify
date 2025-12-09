@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "../css/PoemPage.css";
 
-import backIcon from "../assets/images/IconBack.svg";
+import backIcon from "../assets/images/Forward.svg";
 import favIconOff from "../assets/images/fav=off.svg";
 import favIconOn from "../assets/images/fav=on.svg";
 
 import { useFavorites } from "../context/FavoritesContext";
-import img1 from "../assets/images/1.png"; 
+import img1 from "../assets/images/1.png";
 
 const API_URL = "http://localhost:8055";
 
@@ -17,23 +17,20 @@ export default function PoemPage() {
 
   const [poem, setPoem] = useState(null);
 
-  // Достаём глобальное состояние избранного
   const { isFavorite, add, remove } = useFavorites();
 
   useEffect(() => {
     fetchPoem();
   }, []);
 
-  // Загрузка конкретного стихотворения
   async function fetchPoem() {
     const res = await fetch(
-      `${API_URL}/items/poems/${id}?fields=id,title,text,image,author.name`
+      `${API_URL}/items/poems/${id}?fields=id,title,text,image,author.name,is_user_uploaded`
     );
     const data = await res.json();
     setPoem(data.data);
   }
 
-  // Обработка клика по сердечку
   function handleFavoriteClick() {
     if (isFavorite(poem.id)) remove(poem.id);
     else add(poem.id);
@@ -43,8 +40,7 @@ export default function PoemPage() {
 
   return (
     <div className="poem-page">
-
-      {/* Верхние кнопки */}
+      {/* Верхние кнопки поверх картинки */}
       <div className="top-buttons">
         <button className="back-btn" onClick={() => navigate(-1)}>
           <img src={backIcon} alt="back" />
@@ -59,7 +55,6 @@ export default function PoemPage() {
       </div>
 
       {/* Картинка */}
-      
       <div className="poem-image-wrapper">
         <img
           src={
@@ -74,11 +69,11 @@ export default function PoemPage() {
         />
       </div>
 
+      {/* Контент */}
       <div className="poem-content">
         <h1 className="poem-title-learn">{poem.title}</h1>
         <p className="poem-author-learn">{poem.author?.name}</p>
 
-        {/* Текст стихотворения */}
         <div className="poem-text">
           {poem.text.split("\n").map((line, i) => (
             <p key={i}>{line}</p>
@@ -91,7 +86,6 @@ export default function PoemPage() {
         <span>Учить</span>
         <span className="arrow">›</span>
       </button>
-
     </div>
   );
 }
