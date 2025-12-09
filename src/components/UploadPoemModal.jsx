@@ -1,3 +1,4 @@
+// UploadPoemModal.jsx
 import React, { useState } from "react";
 import "./UploadPoemModal.css";
 
@@ -37,7 +38,6 @@ export default function UploadPoemModal({
   return (
     <div className="upload-overlay">
       <div className="upload-modal">
-
         {mode === "form" && (
           <>
             <h2 className="modal-title">Добавить стихотворение</h2>
@@ -75,10 +75,12 @@ export default function UploadPoemModal({
             </div>
 
             <div className="modal-buttons">
-              <button className="cancel-btn" onClick={onClose}>Отмена</button>
+              <button className="upload-cancel-btn" onClick={onClose}>
+                Отмена
+              </button>
 
-              <button className="save-btn" onClick={goToPreview}>
-                Просмотр 
+              <button className="upload-save-btn" onClick={goToPreview}>
+                Просмотр
               </button>
             </div>
           </>
@@ -91,22 +93,26 @@ export default function UploadPoemModal({
 
             <div className="preview-text-scroll">
               {text.split("\n").map((line, idx) => (
-                <p key={idx} className="preview-line">{line}</p>
+                <p key={idx} className="preview-line">
+                  {line}
+                </p>
               ))}
             </div>
 
             <div className="modal-buttons">
-              <button className="cancel-btn" onClick={() => setMode("form")}>
+              <button
+                className="upload-cancel-btn"
+                onClick={() => setMode("form")}
+              >
                 Назад
               </button>
 
-              <button className="save-btn" onClick={handleSave}>
-                Учить 
+              <button className="upload-save-btn" onClick={handleSave}>
+                Учить
               </button>
             </div>
           </>
         )}
-
       </div>
     </div>
   );

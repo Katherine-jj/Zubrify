@@ -8,6 +8,7 @@ import SearchBar from "../components/SearchBar/SearchBar";
 import SectionHeader from "../components/SectionHeader/SectionHeader";
 import PoemSlider from "../components/PoemSlider/PoemSlider";
 import GradePoemList from "../components/GradePoemList/GradePoemList";
+import UploadPoemModal from "../components/UploadPoemModal";
 
 import { getCurrentUser, getPoems, getUploadedPoems } from "../directusApi";
 
@@ -18,7 +19,8 @@ export default function Home() {
   const [user, setUser] = useState(null);
   const [poems, setPoems] = useState([]);
   const [uploaded, setUploaded] = useState([]);
-
+  const [search, setSearch] = useState("");    
+  const [showUpload, setShowUpload] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,6 +48,7 @@ export default function Home() {
   const userGradeId = user.grade?.id;
 
   const gradePoems = poems.filter(p => p.grade?.id === userGradeId);
+  const gradePoemsTop3 = gradePoems.slice(0, 3);   // ← берём только 3
 
   // пока просто рандомные примеры
   const studyPoems = poems.slice(0, 5);
@@ -55,7 +58,20 @@ export default function Home() {
     <div className="home-container">
       <h1 className="home-title">Что будешь учить сегодня?</h1>
 
-      <SearchBar />
+      <SearchBar 
+        value={search}
+        onChange={setSearch}
+        onUploadClick={() => setShowUpload(true)}
+        showUploadButton={true}
+      />
+      {showUpload && (
+        <UploadPoemModal
+          onClose={() => setShowUpload(false)}
+          childId={user.id}
+          childGrade={user.grade}
+          onUploaded={async () => {}}
+        />
+      )}
 
       {/* ---- Стихи на изучении ---- */}
       <SectionHeader title="Стихи на изучении" link="/library" />
@@ -67,7 +83,7 @@ export default function Home() {
       {/* ---- Стихи по классу ---- */}
       <GradePoemList
         title={`Учат в <span class="highlight">${user.grade?.num}</span> классе`}
-        poems={gradePoems}
+        poems={gradePoemsTop3}
       />
 
       {/* ---- Загруженные пользователем ---- */}

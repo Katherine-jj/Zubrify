@@ -468,3 +468,49 @@ export async function getLearningHistory(userId) {
     }))
     .sort((a, b) => new Date(b.completed_at) - new Date(a.completed_at));
 }
+
+// Получение загруженных польззователем стихов
+
+export async function getUploadedPoemsByUser(userId) {
+  const token = localStorage.getItem("access_token");
+
+  const res = await fetch(
+    `${API_URL}/items/poems?filter[owner][_eq]=${userId}&filter[is_user_uploaded][_eq]=true&fields=id,title,text,image,is_user_uploaded,author.id,author.name`,
+    {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+  );
+
+  const data = await res.json();
+  if (!res.ok) throw new Error("Ошибка загрузки стихов");
+
+  return data.data;
+}
+
+// Получение стихов по классу
+
+export async function getPoemsByGrade(gradeId) {
+  const token = localStorage.getItem("access_token");
+
+  const res = await fetch(
+    `${API_URL}/items/poems?filter[grade][_eq]=${gradeId}&fields=id,title,text,image,author.name,grade.id`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+
+  const data = await res.json();
+  if (!res.ok) throw new Error("Ошибка загрузки стихов по классу");
+
+  return data.data;
+}
+
+export async function getGradeById(id) {
+  const res = await fetch(`${API_URL}/items/grades/${id}`);
+  const data = await res.json();
+  return data.data;
+}
+
+

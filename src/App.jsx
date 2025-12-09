@@ -15,6 +15,7 @@ import Favorites from "./pages/Favorites";
 import ProfileSettings from "./pages/ProfileSettings";
 import HistoryPageFull from "./pages/HistoryPageFull.jsx"
 import UploadedPoemsListFull from "./pages/UploadedPoemsListFull.jsx"
+import GradePoemsPage from "./pages/GradePoemListFull"
 
 // Компоненты
 import BottomNav from './components/BottomNav';
@@ -47,6 +48,7 @@ export default function App() {
             <Route path="/profile/settings" element={<ProfileSettings />} />
             <Route path="/history" element={<HistoryPageFull />} />
             <Route path="/uploaded" element={<UploadedPoemsListFull />} />
+            <Route path="/grade/:gradeId" element={<GradePoemsPage />} />
           </Routes>
         </FavoritesProvider>
       </main>

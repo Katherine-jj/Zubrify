@@ -3,7 +3,12 @@ import "./SearchBar.css";
 import searchIcon from "../../assets/images/Search.svg";
 import downloadIcon from "../../assets/images/solar_download-linear.svg";
 
-export default function SearchBar({ value, onChange, onUploadClick }) {
+export default function SearchBar({ 
+  value, 
+  onChange, 
+  onUploadClick,
+  showUploadButton = false   // 👈 добавили проп
+}) {
   return (
     <div className="search-bar">
       <div className="search-bar-inner">
@@ -17,11 +22,12 @@ export default function SearchBar({ value, onChange, onUploadClick }) {
           className="search-input"
         />
 
-        <button className="search-upload-btn" onClick={onUploadClick}>
-          <img src={downloadIcon} alt="Загрузить" className="download-icon" />
-        </button>
+        {showUploadButton && (           // 👈 показываем кнопку только если разрешено
+          <button className="search-upload-btn" onClick={onUploadClick}>
+            <img src={downloadIcon} alt="Загрузить" className="download-icon" />
+          </button>
+        )}
       </div>
     </div>
   );
 }
-

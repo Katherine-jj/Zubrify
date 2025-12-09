@@ -8,7 +8,8 @@ import {
   getCurrentUser,
   logoutUser,
   getUploadedPoems,
-  getUserProgress
+  getUserProgress,
+  getFavoritesByUser
 } from "../directusApi";
 
 import SectionHeader from "../components/SectionHeader/SectionHeader";
@@ -48,6 +49,8 @@ export default function UserProfile() {
 
   async function load() {
     const me = await getCurrentUser();
+    const favorites = await getFavoritesByUser(me.id);
+
     if (!me) {
       navigate("/login");
       return;
@@ -92,7 +95,7 @@ export default function UserProfile() {
 
     setStats({
       learned: completed.length,
-      planned: learning.length,
+      planned: favorites.length,
       history,
       uploaded: uploaded || [],
       months: months.reverse()
@@ -135,13 +138,13 @@ export default function UserProfile() {
 
       {/* CARDS */}
       <div className="child-cards">
-        <div className="child-card blue">
+        <div className="child-card blue" onClick={() => navigate(`/history`)}>
           <div className="child-card-number">{stats.learned}</div>
           <div className="child-card-text">Выучено</div>
           <img src={arrowAcc} className="child-card-arrow" />
         </div>
 
-        <div className="child-card orange">
+        <div className="child-card orange" onClick={() => navigate(`/favorites/${user.id}`)}>
           <div className="child-card-number">{stats.planned}</div>
           <div className="child-card-text">В планах</div>
           <img src={arrowAcc} className="child-card-arrow" />

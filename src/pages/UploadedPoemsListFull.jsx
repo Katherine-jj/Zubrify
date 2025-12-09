@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getUploadedPoems } from "../directusApi";
+import { getUploadedPoemsByUser, getCurrentUser } from "../directusApi";
 import PoemListPage from "../components/PoemListPage/PoemListPage";
 
 export default function UploadedPoemsPage() {
@@ -10,7 +10,10 @@ export default function UploadedPoemsPage() {
   }, []);
 
   async function load() {
-    const data = await getUploadedPoems();
+    const me = await getCurrentUser();
+    if (!me) return;
+
+    const data = await getUploadedPoemsByUser(me.id);
     setPoems(data || []);
   }
 

@@ -7,9 +7,15 @@ import { useNavigate } from "react-router-dom";
 export default function GradePoemList({ title, poems }) {
   const navigate = useNavigate();
 
+  // Если вдруг массив пустой — подстрахуемся
+  const gradeId = poems[0]?.grade?.id;
+
   return (
     <>
-      <SectionHeader title={title} link="/library" />
+      <SectionHeader 
+        title={title} 
+        link={`/grade/${gradeId}`}   // ← Открываем страницу полного списка
+      />
 
       <div className="poem-list">
         {poems.map((poem, i) => (

@@ -68,6 +68,7 @@ export default function Library() {
 
   // Стихи "Учат в твоём классе"
   const gradePoems = poems.filter(p => p.grade?.id === user.grade?.id);
+  const gradePoemsTop3 = gradePoems.slice(0, 3);
 
   return (
     <div className="library-container">
@@ -81,7 +82,7 @@ export default function Library() {
 
       <GradePoemList
         title={`Учат в <span class="highlight">${user.grade?.num}</span> классе`}
-        poems={gradePoems}
+        poems={gradePoemsTop3}
       />
 
       {/* Табы классов */}
