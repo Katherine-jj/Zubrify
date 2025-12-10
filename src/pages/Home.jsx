@@ -56,7 +56,7 @@ export default function Home() {
 
   return (
     <div className="home-container">
-      <h1 className="home-title">Что будешь учить сегодня?</h1>
+      <h1 className="home-title">Что учим сегодня?</h1>
 
       <SearchBar 
         value={search}
